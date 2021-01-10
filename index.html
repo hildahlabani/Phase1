@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    	<link href="./css/stylesheetZ.css" rel="stylesheet">
+    	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<title>Color Cart</title>
+	</head>
+	<body>
+		
+		<div class="container-md col-md-5 py-2" style="background-color: ghostwhite; ">
+        <h2 id="item-name">Hickies Originals</h2>
+        
+        <div class="row">
+           <div class="col-6">
+                
+					<span class="fa fa-star"></span>
+					<span class="fa fa-star"></span>
+					<span class="fa fa-star"></span>
+					<span class="fa fa-star"></span>
+					<span class="fa fa-star"></span>
+
+            </div>
+            <div class="col-md-6"><p class="text-muted my-mid-text"><span id="reviews"></span>1,293 reviews</p></div>
+        </div>
+        
+        <div class="row justify-content-start pb-3">
+            <div class="col-3">
+               <strong> <span class="price-display" style="color: red; font-size: 25px;">$14.00</span></strong>
+            </div>
+            <div class="col-3">
+                <span class="text-muted">$17.99</span>
+            </div>
+            <div class="col-3">
+                <span class="text-muted">25% OFF</span>
+            </div>
+        </div>
+        <div class="row">
+            <p class="my-mid-text">ONLINE EXCLUSIVE</p>
+        </div>
+        
+         <div class="row">
+            <p class="my-mid-text fw-bold">COLOR: <span id="color" class="fw-normal"></span></p>
+        </div>
+        
+        <div class="container-fluid">
+            <div class="row" id="color-container"></div>
+        </div>
+        
+          <div class="row">
+            <p class="fw-bold my-small-text">Size Guide:</p>
+        </div>
+
+        <div class="row">
+            <p class="fw-bold my-small-text">Your Custom Fit:</p>
+        </div>
+        
+        <div class="row gx-2">
+            <span class="col-3 border border-3 px-4 py-2 rounded-pill my-span" id="count">0</span>
+            <button class="btn btn-dark col-8 mx-2 rounded-pill" id="btn-add-cart" data-bs-toggle="modal" data-bs-target="#quantityModal">Add to Cart</button>
+            <button class="btn btn-dark col-8 mx-2 rounded-pill" id="btn-checkout" data-bs-toggle="modal" data-bs-target="#checkoutModal" hidden>Checkout</button>
+        </div>
+        <hr/>
+       <div id="details">
+            <p class="secondary" style="padding-top: 5px"><strong>DETAILS</strong></p>
+        </div>
+<hr />
+
+ 		<div class="row">
+            <div class="col-12">
+                <a href="#" class="text-dark fw-bold" style="text-decoration: none";>Need Help?</a>
+            </div>
+            <div class="col-12">
+                <a href="#" class="text-dark fw-bold" style="text-decoration: none";>Shipping & Returns</a>
+            </div>
+        </div>
+      </div>
+      
+      <!--Modal-->
+      
+      <div class="modal fade" id="quantity-control-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        tabindex="-1" aria-labelledby="quantity-control-modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title" id="quantity-control-modal-label">Please add the quantity of the item you
+                        have selected</h5>
+                </div>
+                <div class="modal-body border-0">
+                    <form>
+                        <input type="hidden" value="0" id="quantity-control-hidden-value">
+                        <div class="quantity-control-widget">
+                            <span id="quantity-control-item-name-display"></span>
+                            <button type="button" id="quantity-control-minus-button"
+                                class="quantity-control-button quantity-control-minus-button"></button>
+                            <span id="quantity-control-value-display">0</span>
+                            <button type="button" id="quantity-control-plus-button"
+                                class="quantity-control-button quantity-control-plus-button"></button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" id="confirm-quantity-button" class="btn btn-success">Agree</button>
+                    <button type="button" id="cancel-quantity-button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+      
+      
+      <!-- Checkout -->
+    <div class="modal" id="checkoutModal" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Checkout</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                
+                <div id="chechout-main">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Color</th>
+                        <th scope="col">Units</th>
+                        <th scope="col">Price</th>
+                      </tr>
+                    </thead>
+                    
+                  </table>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button type="button" class="btn btn-outline-success my-succeess" onclick="reload()">Checkout</button>
+                    <button type="button" class="btn btn-outline-danger my-danger" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>	
+ <script>
+        	
+   const COLOR_CHECKED = 'color-checked'
+	let selectedItemIndex = null
+
+			class Color{
+					    id;
+					    name;
+					    hex;
+					    price;
+					    inCart;
+					    count;
+					    
+    constructor(id, name, hex){
+        this.id = id;
+        this.name = name;
+        this.hex = hex;
+        this.inCart = false;
+        this.price = 1;
+        this.count = 0;
+    }
+
+    check = () => {
+        document.getElementById(this.id).classList.add(COLOR_CHECKED)
+    }
+
+    uncheck = () => {
+        document.getElementById(this.id).classList.remove(COLOR_CHECKED)
+    }
+}
+
+
+
+// Initialise Arrays
+let colors = [
+    new Color(0, 'IndianRed', '#CD5C5C'),
+    new Color(1, 'Salmon', '#FA8072'),
+    new Color(2, 'tan', '#D2B48C'),
+    new Color(3, 'PaleVioletRed', '#DB7093'),
+    new Color(4, 'Tomato', '#FF6347'),
+    new Color(5, 'OrangeRed', '#FF4500'),
+    new Color(6, 'Gold', '#FFD700'),
+    new Color(7, 'SeaGreen', '#2E8B57'),
+    new Color(8, 'Peru', '#CD853F'),
+    new Color(9, 'SaddleBrown', '#8B4513'),
+    new Color(10, 'White', '#FFFFFF'),
+    new Color(11, 'LightSlateGray', '#778899'),
+    new Color(12, 'Goldenrod', '#DAA520'),
+    new Color(13, 'Chocolate', '#D2691E'),
+    new Color(14, 'Aquamarine', '#7FFFD4'),
+    new Color(15, 'GreenYellow', '#9ACD32'),
+    new Color(16, 'Lime', '#00FF00'),
+    new Color(17, 'Yellow', '#FFFF00'),
+]
+
+
+
+// --------Worker methods-------
+let updateUi = () => {
+    document.getElementById('color').innerHTML = colors[selectedItemIndex].name
+
+    document.getElementById('count').innerHTML = countEach(item.cart)
+    document.getElementById('price').innerHTML = getPrice(item.sellingPrice, item.cart).toFixed(2)
+
+    let sellingPrice = getPrice(item.sellingPrice, item.cart) * (100 - item.discountPercentage) / 100
+    document.getElementById('discounted-price').innerHTML = sellingPrice.toFixed(2)
+
+    if (selectedItemIndex && colors[selectedItemIndex].inCart){
+        document.getElementById('btn-add-cart').hidden = true
+        document.getElementById('btn-checkout').hidden = false
+    } else {
+        document.getElementById('btn-add-cart').hidden = false
+        document.getElementById('btn-checkout').hidden = true
+    }
+}
+
+let format = (s) => {
+    
+    
+    return s.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+}
+
+let toggleAgreeButton = () => {
+    let btn = document.getElementById('btn-agree')
+    if (selectedItemIndex && colors[selectedItemIndex].count > 0){
+        btn.disabled = false
+    } else btn.disabled = true
+}
+
+let addDetails = () => {
+    let detailsColorContainer = document.getElementById('details-color-container')
+    for (let i = 0; i < colors[selectedItemIndex].count; i++){
+        let child = `<div class="my-color" style="background-color: ${colors[selectedItemIndex].hex}"></div>`
+        detailsColorContainer.innerHTML += child
+    }
+}
+
+let countEach = (arr) => {
+    let count = 0
+    
+    if (!arr || arr.length < 1) return count
+    
+    arr.forEach(element => {
+       count += element.count 
+    })
+
+    return count
+}
+
+let getPrice = (base, arr) => {
+    let sum = base
+    arr.forEach(element => {
+        sum += element.price * element.count
+    })
+
+    return sum
+}
+
+
+
+// -----Methods-------
+
+let colorContainer = document.getElementById('color-container')
+colors.forEach((element, i, arr) => {
+    let child = `<div id="${element.id}"class="my-color" style="background-color: ${element.hex}" onclick="onColorClick(${i})"></div>`
+    colorContainer.innerHTML += child
+});
+
+
+
+// add  name
+let nameHolder = document.getElementById('item-name')
+nameHolder.innerHTML = item.name
+
+// add item  price
+let priceHolder = document.getElementById('price')
+priceHolder.innerHTML = item.sellingPrice
+
+// add discount percentage
+let discountPrecentageHolder = document.getElementById('discount')
+discountPrecentageHolder.innerHTML = item.discuntPercentage
+
+// add selling price
+let sellingPriceHolder = document.getElementById('discounted-price')
+let sellingPrice = item.sellingPrice * (100 - item.discuntPercentage) / 100
+sellingPriceHolder.innerHTML = sellingPrice.toFixed(2)
+
+
+// add items count in cart
+let countHolder = document.getElementById('count')
+countHolder.innerHTML = item.cart.length
+
+// add count to modal 
+let modalCountHolder = document.getElementById('modal-count')
+modalCountHolder.innerHTML = item.count
+
+
+
+// ---------------On Click Listeners-----------------
+let onColorClick = (index) => {
+    if (selectedItemIndex != null) colors[selectedItemIndex].uncheck()
+    
+    colors[index].check()
+    selectedItemIndex = index
+    updateUi()
+}
+
+let onAddToCart = () => {
+    countHolder.innerHTML = item.count
+    colors[selectedItemIndex].inCart = true
+
+    item.cart.push(colors[selectedItemIndex])
+
+    addDetails()
+    updateUi()
+}
+
+let onAddItemCount = () => {
+    colors[selectedItemIndex].count++
+    modalCountHolder.innerHTML = colors[selectedItemIndex].count
+    toggleAgreeButton()
+}
+
+let onRemoveItemCount = () => {
+    if (colors[selectedItemIndex].count > 0){
+        colors[selectedItemIndex].count--
+        modalCountHolder.innerHTML = colors[selectedItemIndex].count
+        toggleAgreeButton()
+    }
+}
+
+document.getElementById('quantityModal').addEventListener('shown.bs.modal', () => {
+    colors[selectedItemIndex].count = 0
+
+    document.getElementById('modal-item-name').innerHTML = colors[selectedItemIndex].name
+    document.getElementById('modal-count').innerHTML = colors[selectedItemIndex].count
+    document.getElementById('btn-agree').disabled = true
+})
+
+let reload = () => {
+    document.location.reload()
+}
+
+document.getElementById('checkoutModal').addEventListener('shown.bs.modal', () => {
+    let tableBody = document.getElementById('checkout-table-body')
+    tableBody.innerHTML = ''
+
+    item.cart.forEach(color => {
+        tableBody.innerHTML += `<tr>
+        <td class="gap-2 d-md-flex justify-content-md-start my-min-container">
+            <div class="my-color" style="background-color: ${color.hex}"></div>
+            <p class="fw-normal my-table-p">${color.name}</p>
+        </td>
+        <td>${color.count}</td>
+        <td>$${(color.price * color.count).toFixed(2)}</td>
+      </tr>`
+    });
+
+    tableBody.innerHTML += `<tr>
+    <td></td>
+    <th scope="row">Total</th>
+    <td>$${(getPrice(item.sellingPrice, item.cart) - item.sellingPrice ).toFixed(2)}</td>
+  </tr>`
+
+    tableBody.innerHTML += `<tr>
+    <td></td>
+    <th scope="row">Base Price</th>
+    <td>$${item.sellingPrice.toFixed(2)}</td>
+  </tr>`
+
+  tableBody.innerHTML += `<tr>
+    <td></td>
+    <th scope="row">Discount</th>
+    <td>- $${(getPrice(item.sellingPrice, item.cart) * item.discuntPercentage / 100).toFixed(2)}</td>
+  </tr>`
+
+  tableBody.innerHTML += `<tr>
+    <td></td>
+    <th scope="row">Grand Total</th>
+    <td>$${(getPrice(item.sellingPrice, item.cart) * (100 - item.discuntPercentage) / 100 ).toFixed(2)}</td>
+  </tr>`
+})
+        	
+        	
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+        crossorigin="anonymous"></script>
+
+        
+	</body>
+</html>
